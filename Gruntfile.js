@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          "public/javascripts/vendor/all.js": ["public/javascripts/vendor/all.js"]
+          "public/javascripts/all.js": ["public/javascripts/all.js"]
         }
       }
     },
@@ -14,6 +14,21 @@ module.exports = function(grunt) {
           "underscore": "jquery",
           "backbone": "underscore"
         }
+      }
+    },
+    concat: {
+      options: {
+        separator: ";"
+      },
+      dist: {
+        src: [
+               "public/javascripts/vendor/all.js",
+               "public/javascripts/handlebarsTemplates.js",
+               "public/javascripts/models/article.js",
+               "public/javascripts/collections/articles.js",
+               "public/javascripts/app.js"
+             ],
+        dest: "public/javascripts/all.js"
       }
     },
     handlebars: {
@@ -31,9 +46,10 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-bower-concat");
+  grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-handlebars");
 
-  grunt.registerTask("default", ["bower_concat", "uglify"]);
+  grunt.registerTask("default", ["bower_concat", "concat", "uglify"]);
 };
 
 function removeWhitespace(template) {
